@@ -1,0 +1,160 @@
+@import 'tailwindcss';
+
+/*
+ * TeachPad Design Tokens
+ * Defined as CSS custom properties, remapped for dark mode via .dark class.
+ * These are the single source of truth for both DOM UI and canvas-drawn UI.
+ */
+
+:root {
+  /* Canvas / Surface */
+  --bg-canvas: #ffffff;
+  --bg-surface: #f7f7f8;
+  --bg-surface-translucent: rgba(255, 255, 255, 0.72);
+
+  /* Text */
+  --text-primary: #111214;
+  --text-secondary: #6b6d73;
+
+  /* Accent */
+  --accent: #3d7fff;
+  --accent-hover: #2e6fee;
+
+  /* Ink */
+  --ink-black: #1a1b1e;
+
+  /* Semantic */
+  --danger: #e5484d;
+  --danger-hover: #d13438;
+
+  /* Borders */
+  --border-subtle: rgba(0, 0, 0, 0.08);
+  --border-medium: rgba(0, 0, 0, 0.14);
+
+  /* Shadows */
+  --shadow-float: 0 4px 24px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.04);
+
+  /* Spacing scale: 4/8/12/16/24/32 */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+
+  /* Radius scale: 6/10/16 */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+
+  /* Typography */
+  --font-ui: 'Inter', system-ui, -apple-system, sans-serif;
+  --text-micro: 11px;
+  --text-body: 13px;
+  --text-heading: 15px;
+  --text-title: 20px;
+  --text-display: 24px;
+
+  /* Animation */
+  --duration-fast: 120ms;
+  --duration-normal: 200ms;
+  --duration-slow: 300ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.45, 0, 0.55, 1);
+}
+
+/* Dark theme overrides */
+.dark {
+  --bg-canvas: #0e0f11;
+  --bg-surface: #17181b;
+  --bg-surface-translucent: rgba(23, 24, 27, 0.72);
+
+  --text-primary: #f2f2f3;
+  --text-secondary: #9a9ca3;
+
+  --accent: #5b93ff;
+  --accent-hover: #6da1ff;
+
+  --ink-black: #ededee;
+
+  --danger: #f16468;
+  --danger-hover: #f47a7d;
+
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-medium: rgba(255, 255, 255, 0.14);
+
+  --shadow-float: 0 4px 24px rgba(0, 0, 0, 0.32), 0 1px 4px rgba(0, 0, 0, 0.16);
+}
+
+/*
+ * Base resets
+ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: var(--font-ui);
+  font-size: var(--text-body);
+  color: var(--text-primary);
+  background-color: var(--bg-canvas);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.5;
+}
+
+/* Remove default focus outlines; we'll add our own */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* Prevent text selection on UI elements during drawing */
+.no-select {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Scrollbar styling for panels */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-medium);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+}
+
+/*
+ * Reduced motion: respect OS preference for UI chrome.
+ * Never applied to ink rendering (per PRD §10).
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

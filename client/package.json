@@ -1,0 +1,48 @@
+{
+  "name": "teachpad",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "lint": "eslint src/",
+    "lint:fix": "eslint src/ --fix",
+    "format": "prettier --write \"src/**/*.{ts,tsx,css}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,tsx,css}\"",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "react-router-dom": "^7.6.2",
+    "zustand": "^5.0.5",
+    "perfect-freehand": "^1.2.2",
+    "dexie": "^4.0.11",
+    "framer-motion": "^12.12.2",
+    "lucide-react": "^0.525.0",
+    "rbush": "^4.0.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.31.0",
+    "@tailwindcss/vite": "^4.1.10",
+    "@types/node": "^24.13.2",
+    "@types/rbush": "^4.0.0",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.3",
+    "eslint": "^9.31.0",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "fake-indexeddb": "^6.0.0",
+    "prettier": "^3.5.3",
+    "tailwindcss": "^4.1.10",
+    "typescript": "~6.0.2",
+    "typescript-eslint": "^8.35.1",
+    "vite": "^8.1.1",
+    "vite-plugin-pwa": "^1.0.1",
+    "vitest": "^3.2.3"
+  }
+}
