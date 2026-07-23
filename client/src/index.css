@@ -1,100 +1,58 @@
 @import 'tailwindcss';
 
 /*
- * TeachPad Design Tokens
- * Defined as CSS custom properties, remapped for dark mode via .dark class.
- * These are the single source of truth for both DOM UI and canvas-drawn UI.
+ * Stitch Design System Tokens — TeachPad (Project 3630970095709455302)
+ * Exact tokens from user Stitch specification
  */
 
-:root {
-  /* Canvas / Surface */
-  --bg-canvas: #ffffff;
-  --bg-surface: #f7f7f8;
-  --bg-surface-translucent: rgba(255, 255, 255, 0.72);
+@theme {
+  --color-surface: #fcf8fb;
+  --color-background: #fcf8fb;
+  --color-surface-dim: #dcd9dc;
+  --color-surface-bright: #fcf8fb;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f6f3f5;
+  --color-surface-container: #f0edef;
+  --color-surface-container-high: #eae7ea;
+  --color-surface-container-highest: #e4e2e4;
+  --color-surface-variant: #e4e2e4;
 
-  /* Text */
-  --text-primary: #111214;
-  --text-secondary: #6b6d73;
+  --color-on-surface: #1b1b1d;
+  --color-on-surface-variant: #414755;
+  --color-inverse-surface: #303032;
+  --color-inverse-on-surface: #f3f0f2;
 
-  /* Accent */
-  --accent: #3d7fff;
-  --accent-hover: #2e6fee;
+  --color-outline: #717786;
+  --color-outline-variant: #c1c6d7;
 
-  /* Ink */
-  --ink-black: #1a1b1e;
+  --color-primary: #0058bc;
+  --color-on-primary: #ffffff;
+  --color-primary-container: #0070eb;
+  --color-on-primary-container: #fefcff;
+  --color-inverse-primary: #adc6ff;
 
-  /* Semantic */
-  --danger: #e5484d;
-  --danger-hover: #d13438;
+  --color-secondary: #4c4aca;
+  --color-on-secondary: #ffffff;
+  --color-secondary-container: #6664e4;
+  --color-on-secondary-container: #fffbff;
 
-  /* Borders */
-  --border-subtle: rgba(0, 0, 0, 0.08);
-  --border-medium: rgba(0, 0, 0, 0.14);
+  --color-tertiary: #9e3d00;
+  --color-on-tertiary: #ffffff;
+  --color-tertiary-container: #c64f00;
 
-  /* Shadows */
-  --shadow-float: 0 4px 24px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.04);
-
-  /* Spacing scale: 4/8/12/16/24/32 */
-  --space-1: 4px;
-  --space-2: 8px;
-  --space-3: 12px;
-  --space-4: 16px;
-  --space-6: 24px;
-  --space-8: 32px;
-
-  /* Radius scale: 6/10/16 */
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 16px;
-
-  /* Typography */
-  --font-ui: 'Inter', system-ui, -apple-system, sans-serif;
-  --text-micro: 11px;
-  --text-body: 13px;
-  --text-heading: 15px;
-  --text-title: 20px;
-  --text-display: 24px;
-
-  /* Animation */
-  --duration-fast: 120ms;
-  --duration-normal: 200ms;
-  --duration-slow: 300ms;
-  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-in-out: cubic-bezier(0.45, 0, 0.55, 1);
+  --color-error: #ba1a1a;
+  --color-on-error: #ffffff;
+  --color-error-container: #ffdad6;
+  --color-on-error-container: #93000a;
 }
 
-/* Dark theme overrides */
-.dark {
-  --bg-canvas: #0e0f11;
-  --bg-surface: #17181b;
-  --bg-surface-translucent: rgba(23, 24, 27, 0.72);
-
-  --text-primary: #f2f2f3;
-  --text-secondary: #9a9ca3;
-
-  --accent: #5b93ff;
-  --accent-hover: #6da1ff;
-
-  --ink-black: #ededee;
-
-  --danger: #f16468;
-  --danger-hover: #f47a7d;
-
-  --border-subtle: rgba(255, 255, 255, 0.08);
-  --border-medium: rgba(255, 255, 255, 0.14);
-
-  --shadow-float: 0 4px 24px rgba(0, 0, 0, 0.32), 0 1px 4px rgba(0, 0, 0, 0.16);
-}
-
-/*
- * Base resets
- */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+/* ─── Base ─── */
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #fcf8fb;
+  color: #1b1b1d;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 html,
@@ -105,56 +63,116 @@ body,
   overflow: hidden;
 }
 
-body {
-  font-family: var(--font-ui);
-  font-size: var(--text-body);
-  color: var(--text-primary);
-  background-color: var(--bg-canvas);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  line-height: 1.5;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-/* Remove default focus outlines; we'll add our own */
-:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
-  border-radius: var(--radius-sm);
+/* ─── Canvas Backgrounds ─── */
+.canvas-bg {
+  background-color: #fcf8fb;
+  background-image: radial-gradient(#dcd9dc 1px, transparent 1px);
+  background-size: 24px 24px;
+  position: relative;
 }
 
-/* Prevent text selection on UI elements during drawing */
-.no-select {
-  -webkit-user-select: none;
-  user-select: none;
+.canvas-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.03;
+  pointer-events: none;
+  background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png");
 }
 
-/* Scrollbar styling for panels */
-::-webkit-scrollbar {
-  width: 6px;
+.dark .canvas-bg {
+  background-color: #0e0f11;
+  background-image: radial-gradient(#303032 1px, transparent 1px);
 }
 
-::-webkit-scrollbar-track {
-  background: transparent;
+/* ─── Glassmorphism Panels ─── */
+.glass-panel {
+  background: rgba(252, 248, 251, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(193, 198, 215, 0.3);
+  box-shadow: 0 4px 24px -1px rgba(0, 0, 0, 0.08);
 }
 
-::-webkit-scrollbar-thumb {
-  background: var(--border-medium);
-  border-radius: 3px;
+.dark .glass-panel {
+  background: rgba(23, 24, 27, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 24px -1px rgba(0, 0, 0, 0.35);
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: var(--text-secondary);
+/* ─── Active Pill Highlight ─── */
+.active-pill {
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-/*
- * Reduced motion: respect OS preference for UI chrome.
- * Never applied to ink rendering (per PRD §10).
- */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    transition-duration: 0.01ms !important;
+.dark .active-pill {
+  background: #24252a;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* ─── Material Symbols ─── */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* ─── Animations ─── */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
+
+.animate-entry {
+  animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ─── Card Hover Micro-interaction ─── */
+.card-hover {
+  transition: all 300ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+}
+
+.card-hover:hover .quick-actions {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── Shortcut Badge ─── */
+.shortcut-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  padding: 2px 4px;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  color: #717786;
+}
+
+/* ─── No Select (during drawing) ─── */
+.no-select {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* ─── No Scrollbar (PDF sidebar) ─── */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }

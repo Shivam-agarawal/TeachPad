@@ -1,32 +1,64 @@
-import React, { useEffect, useRef } from 'react';
-import { createEngine, type EngineInstance } from '@/canvas-engine';
+import React, { useEffect, useRef, useCallback } from 'react';
+import { createEngine, type EngineInstance, type StrokeConfig } from '@/canvas-engine';
+import { useToolStore } from '@/state/toolStore';
+import { BRUSH_DEFAULTS } from '@/constants/brush-defaults';
+
+const DRAWING_TOOLS = new Set(['pen', 'pencil', 'highlighter']);
 
 export const CanvasHost: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const engineRef = useRef<EngineInstance | null>(null);
 
+  // Read current tool state (closure captured by the config provider)
+  const toolStoreRef = useRef(useToolStore.getState());
+  useEffect(() => {
+    return useToolStore.subscribe((state) => {
+      toolStoreRef.current = state;
+    });
+  }, []);
+
+  // Stroke config provider — called by StrokeManager on each pointer-begin
+  const strokeConfigProvider = useCallback((): StrokeConfig | null => {
+    const { activeToolId, color, brushSize, brushOpacity } = toolStoreRef.current;
+
+    // Only produce config for drawing tools
+    if (!DRAWING_TOOLS.has(activeToolId)) return null;
+
+    const toolId = activeToolId as 'pen' | 'pencil' | 'highlighter';
+    const defaults = BRUSH_DEFAULTS[toolId];
+
+    return {
+      toolId,
+      color,
+      brush: {
+        size: brushSize,
+        opacity: brushOpacity,
+        thinning: defaults?.thinning ?? 0.5,
+        smoothing: defaults?.smoothing ?? 0.5,
+        streamline: defaults?.streamline ?? 0.5,
+      },
+      layerId: 'default',
+    };
+  }, []);
+
   useEffect(() => {
     if (!containerRef.current) return;
 
-    // Instantiate framework-agnostic canvas engine
-    engineRef.current = createEngine(containerRef.current);
+    const instance = createEngine(containerRef.current, strokeConfigProvider);
+    engineRef.current = instance;
 
     return () => {
-      engineRef.current?.destroy();
+      instance.destroy();
       engineRef.current = null;
     };
-  }, []);
+  }, [strokeConfigProvider]);
 
   return (
     <div
       ref={containerRef}
-      className="relative h-full w-full overflow-hidden bg-[var(--bg-canvas)]"
+      className="relative h-full w-full overflow-hidden canvas-bg"
     >
-      {/* The 4 layer canvas elements will be imperative mounted by CanvasLayerManager in Phase 2 */}
-      <canvas className="pointer-events-none absolute inset-0 h-full w-full" id="bg-canvas" />
-      <canvas className="pointer-events-none absolute inset-0 h-full w-full" id="committed-canvas" />
-      <canvas className="absolute inset-0 h-full w-full touch-none" id="active-canvas" />
-      <canvas className="pointer-events-none absolute inset-0 h-full w-full" id="overlay-canvas" />
+      {/* 4 stacked layer canvases are dynamically managed by CanvasLayerManager */}
     </div>
   );
 };

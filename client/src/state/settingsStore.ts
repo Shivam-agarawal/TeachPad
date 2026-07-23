@@ -24,7 +24,7 @@ interface SettingsStore {
 
 export const useSettingsStore = create<SettingsStore>((set) => ({
   // Initial state
-  theme: 'dark',
+  theme: 'light',
   gridStyle: 'none',
   gridDensity: 24,
   toolbarPosition: 'top',

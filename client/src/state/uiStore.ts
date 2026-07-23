@@ -1,34 +1,73 @@
-// Zustand store: UI state (toolbar, panels, presentation mode)
-// Skeleton — no functionality implemented yet
-
 import { create } from 'zustand';
 
-interface UIStore {
-  // State
-  isToolbarVisible: boolean;
-  isPresentationMode: boolean;
-  isFullscreen: boolean;
-  activePanelId: string | null;
+export type ThemeMode = 'light' | 'dark';
+export type GridType = 'dot' | 'line' | 'none';
 
-  // Actions (stubs)
-  setToolbarVisible: (visible: boolean) => void;
-  toggleToolbar: () => void;
+interface UIStore {
+  // Theme & Viewport state
+  theme: ThemeMode;
+  isLayersPanelOpen: boolean;
+  isSettingsOpen: boolean;
+  isExportOpen: boolean;
+  isPresentationMode: boolean;
+  isRecordingMode: boolean;
+  gridType: GridType;
+  showToolbar: boolean;
+
+  // Actions
+  setTheme: (theme: ThemeMode) => void;
+  toggleTheme: () => void;
+  toggleLayersPanel: () => void;
+  setLayersPanelOpen: (open: boolean) => void;
+  setSettingsOpen: (open: boolean) => void;
+  setExportOpen: (open: boolean) => void;
   setPresentationMode: (active: boolean) => void;
-  setFullscreen: (active: boolean) => void;
-  setActivePanel: (panelId: string | null) => void;
+  setRecordingMode: (active: boolean) => void;
+  setGridType: (type: GridType) => void;
+  setShowToolbar: (show: boolean) => void;
 }
 
 export const useUIStore = create<UIStore>((set) => ({
-  // Initial state
-  isToolbarVisible: true,
+  theme: 'light',
+  isLayersPanelOpen: false,
+  isSettingsOpen: false,
+  isExportOpen: false,
   isPresentationMode: false,
-  isFullscreen: false,
-  activePanelId: null,
+  isRecordingMode: false,
+  gridType: 'dot',
+  showToolbar: true,
 
-  // Action stubs
-  setToolbarVisible: (visible) => set({ isToolbarVisible: visible }),
-  toggleToolbar: () => set((state) => ({ isToolbarVisible: !state.isToolbarVisible })),
+  setTheme: (theme) => {
+    if (typeof document !== 'undefined') {
+      if (theme === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    }
+    set({ theme });
+  },
+
+  toggleTheme: () => {
+    set((state) => {
+      const nextTheme = state.theme === 'light' ? 'dark' : 'light';
+      if (typeof document !== 'undefined') {
+        if (nextTheme === 'dark') {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      }
+      return { theme: nextTheme };
+    });
+  },
+
+  toggleLayersPanel: () => set((state) => ({ isLayersPanelOpen: !state.isLayersPanelOpen })),
+  setLayersPanelOpen: (open) => set({ isLayersPanelOpen: open }),
+  setSettingsOpen: (open) => set({ isSettingsOpen: open }),
+  setExportOpen: (open) => set({ isExportOpen: open }),
   setPresentationMode: (active) => set({ isPresentationMode: active }),
-  setFullscreen: (active) => set({ isFullscreen: active }),
-  setActivePanel: (panelId) => set({ activePanelId: panelId }),
+  setRecordingMode: (active) => set({ isRecordingMode: active }),
+  setGridType: (type) => set({ gridType: type }),
+  setShowToolbar: (show) => set({ showToolbar: show }),
 }));
